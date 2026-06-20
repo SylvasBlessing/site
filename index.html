@@ -51,7 +51,7 @@
   /* ---- hero ---- */
   header{position:relative;min-height:100vh;display:flex;align-items:center;
     justify-content:center;text-align:center;overflow:hidden}
-  .hero-bg{position:absolute;inset:0;background:url('assets/hero-sylva.png') center 30%/cover no-repeat;
+  .hero-bg{position:absolute;inset:0;background:url('assets/hero-sylva.webp') center 30%/cover no-repeat;
     transform:scale(1.03)}
   .hero-veil{position:absolute;inset:0;
     background:
@@ -64,8 +64,6 @@
   @media(max-width:480px){.hero h1{letter-spacing:0}}
   .hero h1 .of{display:block;font-size:.62em;letter-spacing:.04em;color:#fff;
     margin-top:-.08em;text-shadow:0 2px 30px rgba(126,200,80,.45),0 1px 2px rgba(0,0,0,.6)}
-  .formerly{font-family:var(--serif);font-size:13px;letter-spacing:.34em;text-transform:uppercase;
-    color:var(--gold);margin-top:18px;opacity:.85}
   .tagline{font-family:var(--story);font-style:italic;font-size:clamp(18px,2.4vw,24px);
     color:var(--parchment);max-width:600px;margin:26px auto 0;text-shadow:0 1px 12px rgba(0,0,0,.8)}
   .cta{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-top:40px}
@@ -126,7 +124,9 @@
     background:radial-gradient(120% 80% at 50% 0%,rgba(126,200,80,.08),transparent),var(--panel);
     transition:transform .2s,box-shadow .2s}
   .vessel:hover{transform:translateY(-4px);box-shadow:0 0 30px rgba(126,200,80,.18)}
-  .vessel .glyph{font-size:34px;margin-bottom:12px}
+  .vessel .glyph{margin-bottom:14px}
+  .vessel .glyph img{width:104px;height:104px;object-fit:contain;
+    filter:drop-shadow(0 4px 16px rgba(0,0,0,.55))}
   .vessel h3{font-size:19px;color:var(--gold-bright)}
   .vessel .role{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--leaf);margin:6px 0 12px}
   .vessel p{font-size:14px;color:var(--leaf-soft)}
@@ -183,8 +183,7 @@
   <div class="hero">
     <div class="eyebrow">A Roguelike Deckbuilder</div>
     <h1>Sylva's<span class="of">Blessing</span></h1>
-    <div class="formerly">The saga forged as DruidForge</div>
-    <p class="tagline">A mortal soul, drawn from death into a dying world. The Greenmother is summoning her last champion — and the Root will not wait.</p>
+    <p class="tagline">A fading goddess. A rotting world. One soul, drawn from death, to save them both.</p>
     <div class="cta">
       <a class="btn btn-primary" href="https://blovely133.github.io/desktop-tutorial/">Play in your browser</a>
       <a class="btn btn-ghost" href="#world">Enter the world</a>
@@ -258,25 +257,25 @@
     </div>
     <div class="class-grid">
       <div class="vessel">
-        <div class="glyph">⚔️</div>
+        <div class="glyph"><img src="assets/hero-warrior.webp" alt="Warrior" /></div>
         <h3>Warrior</h3>
         <div class="role">Iron Vessel</div>
         <p>Weapons, armor, and brutal tempo. Outlast every swarm.</p>
       </div>
       <div class="vessel">
-        <div class="glyph">✦</div>
+        <div class="glyph"><img src="assets/hero-mage.webp" alt="Mage" /></div>
         <h3>Mage</h3>
         <div class="role">Arcane Vessel</div>
         <p>Burn and spellcraft. Reach over any wall they raise.</p>
       </div>
       <div class="vessel">
-        <div class="glyph">❧</div>
+        <div class="glyph"><img src="assets/hero-druid.webp" alt="Druid" /></div>
         <h3>Druid</h3>
         <div class="role">Verdant Vessel</div>
         <p>Growth, ramp, and renewal — the wild made into power.</p>
       </div>
       <div class="vessel">
-        <div class="glyph">🗡️</div>
+        <div class="glyph"><img src="assets/hero-rogue.webp" alt="Rogue" /></div>
         <h3>Rogue</h3>
         <div class="role">Shadow Vessel</div>
         <p>Daggers, guile, and lethal precision from the dark.</p>
@@ -294,11 +293,11 @@
       <div class="rule"></div>
     </div>
     <div class="blessing-row">
-      <div class="card"><div class="art"><img src="assets/blessing-heart.png" alt="Heart of the Forest" /></div><div class="name">Heart of the Forest</div></div>
-      <div class="card"><div class="art"><img src="assets/blessing-arcane.png" alt="Arcane Wellspring" /></div><div class="name">Arcane Wellspring</div></div>
-      <div class="card"><div class="art"><img src="assets/blessing-foresight.png" alt="Gift of Foresight" /></div><div class="name">Gift of Foresight</div></div>
-      <div class="card"><div class="art"><img src="assets/blessing-fortune.png" alt="Fortune's Favor" /></div><div class="name">Fortune's Favor</div></div>
-      <div class="card"><div class="art"><img src="assets/blessing-bounty.png" alt="Wild Bounty" /></div><div class="name">Wild Bounty</div></div>
+      <div class="card"><div class="art"><img src="assets/blessing-heart.webp" alt="Heart of the Forest" /></div><div class="name">Heart of the Forest</div></div>
+      <div class="card"><div class="art"><img src="assets/blessing-arcane.webp" alt="Arcane Wellspring" /></div><div class="name">Arcane Wellspring</div></div>
+      <div class="card"><div class="art"><img src="assets/blessing-foresight.webp" alt="Gift of Foresight" /></div><div class="name">Gift of Foresight</div></div>
+      <div class="card"><div class="art"><img src="assets/blessing-fortune.webp" alt="Fortune's Favor" /></div><div class="name">Fortune's Favor</div></div>
+      <div class="card"><div class="art"><img src="assets/blessing-bounty.webp" alt="Wild Bounty" /></div><div class="name">Wild Bounty</div></div>
     </div>
   </div>
 </section>
@@ -321,7 +320,7 @@
 <footer>
   <div class="wrap">
     <div class="brand">SYLVA'S <b style="color:var(--leaf-glow)">BLESSING</b></div>
-    <p>© 2026 Sylva's Blessing — formerly DruidForge. A roguelike deckbuilder. All art and lore property of their creator.</p>
+    <p>© 2026 Sylva's Blessing. A roguelike deckbuilder. All art and lore property of their creator.</p>
   </div>
 </footer>
 
