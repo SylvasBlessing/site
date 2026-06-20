@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sylva's Blessing — a roguelike deckbuilder</title>
+<meta name="description" content="Sylva's Blessing — a roguelike deckbuilder. A mortal soul, summoned by Sylva the Greenmother to cut the blight from a dying world. Earn her blessing. Become her champion." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=EB+Garamond:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --gold:#c79a36; --gold-bright:#ffd54f; --parchment:#f0e2b0;
+    --leaf:#7ec850; --leaf-soft:#9bbf78; --leaf-glow:#bff06a; --moss:#2e5e2e;
+    --ember:#ff8a2e;
+    --ink:#0a1206; --ink-2:#0e160a; --panel:#13180f; --panel-2:#171c12;
+    --line:rgba(199,154,54,.28);
+    --serif:'Cinzel',Georgia,serif; --story:'EB Garamond',Georgia,serif;
+    --sans:'Inter',ui-sans-serif,system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:var(--sans); color:var(--parchment); background:var(--ink);
+    line-height:1.7; -webkit-font-smoothing:antialiased; overflow-x:hidden;
+  }
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 28px}
+  h1,h2,h3{font-family:var(--serif);font-weight:600;letter-spacing:.02em;line-height:1.15}
+  .eyebrow{font-family:var(--serif);font-weight:600;letter-spacing:.32em;text-transform:uppercase;
+    font-size:12px;color:var(--gold)}
+
+  /* ---- nav ---- */
+  nav{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;
+    justify-content:space-between;padding:16px 28px;
+    background:linear-gradient(to bottom,rgba(5,9,4,.92),rgba(5,9,4,0));
+    backdrop-filter:blur(2px)}
+  .brand{font-family:var(--serif);font-weight:700;font-size:19px;letter-spacing:.12em;
+    color:var(--parchment);white-space:nowrap}
+  .brand b{color:var(--leaf-glow);font-weight:700}
+  @media(max-width:520px){.brand{font-size:14px;letter-spacing:.06em}}
+  .links{display:flex;gap:30px;align-items:center}
+  .links a{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--leaf-soft);
+    transition:color .2s}
+  .links a:hover{color:var(--gold-bright)}
+  .links .play{border:1px solid var(--gold);color:var(--gold-bright);padding:8px 18px;
+    border-radius:3px}
+  .links .play:hover{background:var(--gold);color:var(--ink)}
+  @media(max-width:760px){.links a:not(.play){display:none}}
+
+  /* ---- hero ---- */
+  header{position:relative;min-height:100vh;display:flex;align-items:center;
+    justify-content:center;text-align:center;overflow:hidden}
+  .hero-bg{position:absolute;inset:0;background:url('assets/hero-sylva.png') center 30%/cover no-repeat;
+    transform:scale(1.03)}
+  .hero-veil{position:absolute;inset:0;
+    background:
+      radial-gradient(120% 90% at 50% 18%,rgba(126,200,80,.10),transparent 55%),
+      linear-gradient(to bottom,rgba(5,9,4,.55) 0%,rgba(5,9,4,.20) 38%,rgba(5,9,4,.72) 82%,var(--ink) 100%)}
+  .hero{position:relative;z-index:2;padding:120px 24px 60px;max-width:820px}
+  .hero .eyebrow{margin-bottom:22px}
+  .hero h1{font-size:clamp(42px,11vw,108px);font-weight:700;letter-spacing:.04em;
+    color:#fff;text-shadow:0 2px 30px rgba(126,200,80,.45),0 1px 2px rgba(0,0,0,.6)}
+  @media(max-width:480px){.hero h1{letter-spacing:0}}
+  .hero h1 .of{display:block;font-size:.62em;letter-spacing:.04em;color:#fff;
+    margin-top:-.08em;text-shadow:0 2px 30px rgba(126,200,80,.45),0 1px 2px rgba(0,0,0,.6)}
+  .formerly{font-family:var(--serif);font-size:13px;letter-spacing:.34em;text-transform:uppercase;
+    color:var(--gold);margin-top:18px;opacity:.85}
+  .tagline{font-family:var(--story);font-style:italic;font-size:clamp(18px,2.4vw,24px);
+    color:var(--parchment);max-width:600px;margin:26px auto 0;text-shadow:0 1px 12px rgba(0,0,0,.8)}
+  .cta{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-top:40px}
+  .btn{font-family:var(--serif);font-weight:600;letter-spacing:.12em;text-transform:uppercase;
+    font-size:14px;padding:15px 32px;border-radius:4px;transition:transform .15s,box-shadow .2s,background .2s}
+  .btn-primary{background:linear-gradient(180deg,var(--leaf) 0%,var(--moss) 100%);color:#0a1206;
+    border:1px solid var(--leaf-glow);box-shadow:0 0 28px rgba(126,200,80,.35)}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 0 40px rgba(126,200,80,.6)}
+  .btn-ghost{background:rgba(10,18,6,.5);color:var(--gold-bright);border:1px solid var(--gold)}
+  .btn-ghost:hover{background:rgba(199,154,54,.16);transform:translateY(-2px)}
+  .scroll-hint{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);z-index:2;
+    color:var(--gold);font-size:22px;animation:bob 2.2s ease-in-out infinite;opacity:.8}
+  @keyframes bob{0%,100%{transform:translate(-50%,0)}50%{transform:translate(-50%,9px)}}
+
+  /* ---- section frame ---- */
+  section{position:relative;padding:104px 0}
+  .section-head{text-align:center;max-width:680px;margin:0 auto 60px}
+  .section-head h2{font-size:clamp(32px,4.4vw,46px);color:var(--gold-bright);margin:14px 0 0}
+  .section-head p{color:var(--leaf-soft);margin-top:18px;font-size:17px}
+  .rule{width:64px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);
+    margin:22px auto 0}
+
+  /* ---- premise ---- */
+  #world{background:
+    radial-gradient(80% 60% at 50% 0%,rgba(46,94,46,.22),transparent 60%),var(--ink-2)}
+  .scroll-panel{max-width:760px;margin:0 auto;text-align:center;
+    border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:46px 30px}
+  .scroll-panel p{font-family:var(--story);font-size:clamp(19px,2.3vw,23px);color:var(--parchment);
+    line-height:1.85}
+  .scroll-panel p + p{margin-top:22px}
+  .scroll-panel .drop::first-letter{font-family:var(--serif);font-size:3.4em;float:left;
+    line-height:.8;color:var(--leaf-glow);padding:6px 12px 0 0}
+  .scroll-panel em{color:var(--leaf-glow);font-style:italic}
+
+  /* ---- acts ---- */
+  #acts{background:var(--ink)}
+  .acts-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+  @media(max-width:900px){.acts-grid{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:520px){.acts-grid{grid-template-columns:1fr}}
+  .act{position:relative;background:linear-gradient(180deg,var(--panel),var(--ink-2));
+    border:1px solid var(--line);border-radius:6px;padding:26px 22px;overflow:hidden;
+    transition:transform .2s,border-color .2s}
+  .act:hover{transform:translateY(-4px);border-color:var(--gold)}
+  .act .num{font-family:var(--serif);font-size:13px;letter-spacing:.3em;color:var(--gold)}
+  .act h3{font-size:21px;color:var(--parchment);margin:10px 0 12px}
+  .act .faction{display:inline-block;font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--leaf-glow);border:1px solid rgba(126,200,80,.4);border-radius:20px;padding:3px 11px}
+  .act .tone{color:var(--leaf-soft);font-style:italic;font-family:var(--story);font-size:16px;margin:14px 0}
+  .act .boss{border-top:1px solid var(--line);padding-top:12px;margin-top:14px;font-size:13px}
+  .act .boss span{color:var(--gold);letter-spacing:.12em;text-transform:uppercase;font-size:11px;display:block}
+  .act .boss b{font-family:var(--serif);color:var(--ember);font-weight:600;font-size:15px}
+
+  /* ---- classes ---- */
+  #classes{background:var(--ink-2)}
+  .class-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+  @media(max-width:820px){.class-grid{grid-template-columns:repeat(2,1fr)}}
+  .vessel{text-align:center;padding:30px 18px;border:1px solid var(--line);border-radius:6px;
+    background:radial-gradient(120% 80% at 50% 0%,rgba(126,200,80,.08),transparent),var(--panel);
+    transition:transform .2s,box-shadow .2s}
+  .vessel:hover{transform:translateY(-4px);box-shadow:0 0 30px rgba(126,200,80,.18)}
+  .vessel .glyph{font-size:34px;margin-bottom:12px}
+  .vessel h3{font-size:19px;color:var(--gold-bright)}
+  .vessel .role{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--leaf);margin:6px 0 12px}
+  .vessel p{font-size:14px;color:var(--leaf-soft)}
+
+  /* ---- blessings ---- */
+  #blessings{background:
+    radial-gradient(70% 70% at 50% 10%,rgba(46,94,46,.25),transparent 60%),var(--ink)}
+  .blessing-row{display:flex;gap:18px;justify-content:center;flex-wrap:wrap;margin-top:10px}
+  .card{width:172px;text-align:center}
+  .card .art{height:230px;border-radius:8px;border:1px solid var(--line);
+    background:radial-gradient(60% 60% at 50% 40%,rgba(126,200,80,.14),rgba(10,18,6,.6));
+    display:flex;align-items:center;justify-content:center;overflow:hidden;
+    transition:transform .25s,box-shadow .25s}
+  .card .art img{width:100%;height:100%;object-fit:contain;
+    filter:drop-shadow(0 6px 18px rgba(0,0,0,.6))}
+  .card:hover .art{transform:translateY(-6px) rotate(-1deg);box-shadow:0 0 34px rgba(126,200,80,.4)}
+  .card .name{font-family:var(--serif);font-size:14px;color:var(--gold-bright);margin-top:14px;
+    letter-spacing:.04em}
+  @media(max-width:760px){.card{width:140px}.card .art{height:188px}}
+
+  /* ---- final cta ---- */
+  #join{text-align:center;background:
+    linear-gradient(180deg,var(--ink) 0%,#0c1407 100%);padding:120px 0}
+  #join h2{font-size:clamp(34px,5vw,54px);color:#fff;
+    text-shadow:0 0 36px rgba(126,200,80,.4)}
+  #join .tagline{margin:24px auto 36px}
+  .novel{margin-top:74px;padding-top:40px;border-top:1px solid var(--line);max-width:560px;
+    margin-left:auto;margin-right:auto}
+  .novel .eyebrow{color:var(--leaf)}
+  .novel h3{font-size:24px;color:var(--gold-bright);margin:12px 0 8px}
+  .novel p{color:var(--leaf-soft);font-family:var(--story);font-style:italic;font-size:17px}
+
+  footer{padding:34px 0;text-align:center;border-top:1px solid var(--line);background:var(--ink)}
+  footer p{font-size:12px;color:#6f7d5c;letter-spacing:.08em}
+  footer .brand{font-size:15px;letter-spacing:.2em;margin-bottom:8px;display:inline-block}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="brand">SYLVA'S <b>BLESSING</b></div>
+  <div class="links">
+    <a href="#world">The World</a>
+    <a href="#acts">The Descent</a>
+    <a href="#classes">Vessels</a>
+    <a href="#blessings">Blessings</a>
+    <a class="play" href="https://blovely133.github.io/desktop-tutorial/">Play Free</a>
+  </div>
+</nav>
+
+<header>
+  <div class="hero-bg"></div>
+  <div class="hero-veil"></div>
+  <div class="hero">
+    <div class="eyebrow">A Roguelike Deckbuilder</div>
+    <h1>Sylva's<span class="of">Blessing</span></h1>
+    <div class="formerly">The saga forged as DruidForge</div>
+    <p class="tagline">A mortal soul, drawn from death into a dying world. The Greenmother is summoning her last champion — and the Root will not wait.</p>
+    <div class="cta">
+      <a class="btn btn-primary" href="https://blovely133.github.io/desktop-tutorial/">Play in your browser</a>
+      <a class="btn btn-ghost" href="#world">Enter the world</a>
+    </div>
+  </div>
+  <div class="scroll-hint">❧</div>
+</header>
+
+<section id="world">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">The Summons</div>
+      <h2>The Greenmother calls</h2>
+      <div class="rule"></div>
+    </div>
+    <div class="scroll-panel">
+      <p class="drop">You died in our world — and woke in <em>Verdir</em>, a world grown from a single living World-Root that binds all that breathes. The Root is dying of a blight, and <em>Sylva, the Greenmother</em>, has summoned soul after soul to cut it out. Every champion before you has fallen.</p>
+      <p>Descend through four cursed dungeons. Forge a deck from her gifts and the spoils of the slain. Reach the Obsidian Spire, face the demon lord whose rotting seal poisons everything — and become the champion who finally saves the world. Fall, and she keeps searching.</p>
+    </div>
+  </div>
+</section>
+
+<section id="acts">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">The Descent</div>
+      <h2>Four dungeons, one dying world</h2>
+      <p>The blight reads as creeping black-green rot across every biome. Each act is a faction, escalating toward the Spire — and a named lord with a deck built to break you.</p>
+      <div class="rule"></div>
+    </div>
+    <div class="acts-grid">
+      <div class="act">
+        <div class="num">ACT I</div>
+        <h3>The Goblin Warrens</h3>
+        <span class="faction">Goblins</span>
+        <p class="tone">Grimy, fast, swarming.</p>
+        <div class="boss"><span>Lord</span><b>Goresnout, the Goblin Warlord</b></div>
+      </div>
+      <div class="act">
+        <div class="num">ACT II</div>
+        <h3>The Drowned Catacombs</h3>
+        <span class="faction">Undead</span>
+        <p class="tone">Cold, sunken, attrition.</p>
+        <div class="boss"><span>Lord</span><b>Mordrath, the Grave Tyrant</b></div>
+      </div>
+      <div class="act">
+        <div class="num">ACT III</div>
+        <h3>The Feral Thornwood</h3>
+        <span class="faction">Corrupted Beasts</span>
+        <p class="tone">Wild, overgrown, savage.</p>
+        <div class="boss"><span>Lord</span><b>Vurok, the Dire Alpha</b></div>
+      </div>
+      <div class="act">
+        <div class="num">ACT IV</div>
+        <h3>The Obsidian Spire</h3>
+        <span class="faction">Demons</span>
+        <p class="tone">Hellish, climactic.</p>
+        <div class="boss"><span>Lord</span><b>Vholgrath, the Sealed</b></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="classes">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Your Vessel</div>
+      <h2>Choose the soul she summons</h2>
+      <p>Your class is the vessel for an outsider's soul — each with a hero power and signature cards, each a different way to wield Verdir's gifts against the blight.</p>
+      <div class="rule"></div>
+    </div>
+    <div class="class-grid">
+      <div class="vessel">
+        <div class="glyph">⚔️</div>
+        <h3>Warrior</h3>
+        <div class="role">Iron Vessel</div>
+        <p>Weapons, armor, and brutal tempo. Outlast every swarm.</p>
+      </div>
+      <div class="vessel">
+        <div class="glyph">✦</div>
+        <h3>Mage</h3>
+        <div class="role">Arcane Vessel</div>
+        <p>Burn and spellcraft. Reach over any wall they raise.</p>
+      </div>
+      <div class="vessel">
+        <div class="glyph">❧</div>
+        <h3>Druid</h3>
+        <div class="role">Verdant Vessel</div>
+        <p>Growth, ramp, and renewal — the wild made into power.</p>
+      </div>
+      <div class="vessel">
+        <div class="glyph">🗡️</div>
+        <h3>Rogue</h3>
+        <div class="role">Shadow Vessel</div>
+        <p>Daggers, guile, and lethal precision from the dark.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="blessings">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Sylva's Blessing</div>
+      <h2>A gift before every descent</h2>
+      <p>At each gate, the Greenmother offers her blessing — a run-shaping boon to carry into the dark. Choose well; you cannot carry them all.</p>
+      <div class="rule"></div>
+    </div>
+    <div class="blessing-row">
+      <div class="card"><div class="art"><img src="assets/blessing-heart.png" alt="Heart of the Forest" /></div><div class="name">Heart of the Forest</div></div>
+      <div class="card"><div class="art"><img src="assets/blessing-arcane.png" alt="Arcane Wellspring" /></div><div class="name">Arcane Wellspring</div></div>
+      <div class="card"><div class="art"><img src="assets/blessing-foresight.png" alt="Gift of Foresight" /></div><div class="name">Gift of Foresight</div></div>
+      <div class="card"><div class="art"><img src="assets/blessing-fortune.png" alt="Fortune's Favor" /></div><div class="name">Fortune's Favor</div></div>
+      <div class="card"><div class="art"><img src="assets/blessing-bounty.png" alt="Wild Bounty" /></div><div class="name">Wild Bounty</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="join">
+  <div class="wrap">
+    <div class="eyebrow">Become Her Champion</div>
+    <h2>Earn Sylva's blessing</h2>
+    <p class="tagline">Free in your browser. No download. The Root is dying — descend.</p>
+    <a class="btn btn-primary" href="https://blovely133.github.io/desktop-tutorial/">Play Sylva's Blessing</a>
+
+    <div class="novel">
+      <div class="eyebrow">Read the Legend</div>
+      <h3>Sylva's Blessing — The Novel</h3>
+      <p>The light novel of Verdir — one soul's journey from the doors of death into the Greenmother's failing world. Coming soon.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="brand">SYLVA'S <b style="color:var(--leaf-glow)">BLESSING</b></div>
+    <p>© 2026 Sylva's Blessing — formerly DruidForge. A roguelike deckbuilder. All art and lore property of their creator.</p>
+  </div>
+</footer>
+
+</body>
+</html>
