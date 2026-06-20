@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Sylva's Blessing — a roguelike deckbuilder</title>
 <meta name="description" content="Sylva's Blessing — a roguelike deckbuilder. A mortal soul, summoned by Sylva the Greenmother to cut the blight from a dying world. Earn her blessing. Become her champion." />
+<link rel="preload" as="image" href="assets/hero-sylva.webp" media="(min-width:601px)" fetchpriority="high" />
+<link rel="preload" as="image" href="assets/hero-sylva-mobile.webp" media="(max-width:600px)" fetchpriority="high" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=EB+Garamond:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -53,6 +55,7 @@
     justify-content:center;text-align:center;overflow:hidden}
   .hero-bg{position:absolute;inset:0;background:url('assets/hero-sylva.webp') center 30%/cover no-repeat;
     transform:scale(1.03)}
+  @media(max-width:600px){.hero-bg{background-image:url('assets/hero-sylva-mobile.webp')}}
   .hero-veil{position:absolute;inset:0;
     background:
       radial-gradient(120% 90% at 50% 18%,rgba(126,200,80,.10),transparent 55%),
@@ -257,25 +260,25 @@
     </div>
     <div class="class-grid">
       <div class="vessel">
-        <div class="glyph"><img src="assets/hero-warrior.webp" alt="Warrior" /></div>
+        <div class="glyph"><img src="assets/hero-warrior.webp" alt="Warrior" loading="lazy" decoding="async" /></div>
         <h3>Warrior</h3>
         <div class="role">Iron Vessel</div>
         <p>Weapons, armor, and brutal tempo. Outlast every swarm.</p>
       </div>
       <div class="vessel">
-        <div class="glyph"><img src="assets/hero-mage.webp" alt="Mage" /></div>
+        <div class="glyph"><img src="assets/hero-mage.webp" alt="Mage" loading="lazy" decoding="async" /></div>
         <h3>Mage</h3>
         <div class="role">Arcane Vessel</div>
         <p>Burn and spellcraft. Reach over any wall they raise.</p>
       </div>
       <div class="vessel">
-        <div class="glyph"><img src="assets/hero-druid.webp" alt="Druid" /></div>
+        <div class="glyph"><img src="assets/hero-druid.webp" alt="Druid" loading="lazy" decoding="async" /></div>
         <h3>Druid</h3>
         <div class="role">Verdant Vessel</div>
         <p>Growth, ramp, and renewal — the wild made into power.</p>
       </div>
       <div class="vessel">
-        <div class="glyph"><img src="assets/hero-rogue.webp" alt="Rogue" /></div>
+        <div class="glyph"><img src="assets/hero-rogue.webp" alt="Rogue" loading="lazy" decoding="async" /></div>
         <h3>Rogue</h3>
         <div class="role">Shadow Vessel</div>
         <p>Daggers, guile, and lethal precision from the dark.</p>
@@ -293,11 +296,11 @@
       <div class="rule"></div>
     </div>
     <div class="blessing-row">
-      <div class="card"><div class="art"><img src="assets/blessing-heart.webp" alt="Heart of the Forest" /></div><div class="name">Heart of the Forest</div></div>
-      <div class="card"><div class="art"><img src="assets/blessing-arcane.webp" alt="Arcane Wellspring" /></div><div class="name">Arcane Wellspring</div></div>
-      <div class="card"><div class="art"><img src="assets/blessing-foresight.webp" alt="Gift of Foresight" /></div><div class="name">Gift of Foresight</div></div>
-      <div class="card"><div class="art"><img src="assets/blessing-fortune.webp" alt="Fortune's Favor" /></div><div class="name">Fortune's Favor</div></div>
-      <div class="card"><div class="art"><img src="assets/blessing-bounty.webp" alt="Wild Bounty" /></div><div class="name">Wild Bounty</div></div>
+      <div class="card"><div class="art"><img src="assets/blessing-heart.webp" alt="Heart of the Forest" loading="lazy" decoding="async" /></div><div class="name">Heart of the Forest</div></div>
+      <div class="card"><div class="art"><img src="assets/blessing-arcane.webp" alt="Arcane Wellspring" loading="lazy" decoding="async" /></div><div class="name">Arcane Wellspring</div></div>
+      <div class="card"><div class="art"><img src="assets/blessing-foresight.webp" alt="Gift of Foresight" loading="lazy" decoding="async" /></div><div class="name">Gift of Foresight</div></div>
+      <div class="card"><div class="art"><img src="assets/blessing-fortune.webp" alt="Fortune's Favor" loading="lazy" decoding="async" /></div><div class="name">Fortune's Favor</div></div>
+      <div class="card"><div class="art"><img src="assets/blessing-bounty.webp" alt="Wild Bounty" loading="lazy" decoding="async" /></div><div class="name">Wild Bounty</div></div>
     </div>
   </div>
 </section>
