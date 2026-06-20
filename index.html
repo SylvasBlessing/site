@@ -5,6 +5,26 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Sylva's Blessing — a roguelike deckbuilder</title>
 <meta name="description" content="Sylva's Blessing — a roguelike deckbuilder. A mortal soul, summoned by Sylva the Greenmother to cut the blight from a dying world. Earn her blessing. Become her champion." />
+<link rel="canonical" href="https://sylvasblessing.com/" />
+<!-- favicon + theme -->
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+<link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png" />
+<link rel="apple-touch-icon" href="assets/apple-touch-icon-180.png" />
+<meta name="theme-color" content="#0a1206" />
+<!-- Open Graph -->
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Sylva's Blessing" />
+<meta property="og:title" content="Sylva's Blessing — a roguelike deckbuilder" />
+<meta property="og:description" content="A fading goddess. A rotting world. One soul, drawn from death, to save them both. Play free in your browser." />
+<meta property="og:url" content="https://sylvasblessing.com/" />
+<meta property="og:image" content="https://sylvasblessing.com/assets/og-image.jpg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Sylva's Blessing — a roguelike deckbuilder" />
+<meta name="twitter:description" content="A fading goddess. A rotting world. One soul, drawn from death, to save them both. Play free in your browser." />
+<meta name="twitter:image" content="https://sylvasblessing.com/assets/og-image.jpg" />
 <link rel="preload" as="image" href="assets/hero-sylva.webp" media="(min-width:601px)" fetchpriority="high" />
 <link rel="preload" as="image" href="assets/hero-sylva-mobile.webp" media="(max-width:600px)" fetchpriority="high" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -118,6 +138,9 @@
   .act .boss{border-top:1px solid var(--line);padding-top:12px;margin-top:14px;font-size:13px}
   .act .boss span{color:var(--gold);letter-spacing:.12em;text-transform:uppercase;font-size:11px;display:block}
   .act .boss b{font-family:var(--serif);color:var(--ember);font-weight:600;font-size:15px}
+  .act .faction-icon{position:absolute;right:-14px;bottom:-14px;width:128px;height:128px;
+    object-fit:contain;opacity:.2;pointer-events:none;transition:opacity .25s}
+  .act:hover .faction-icon{opacity:.36}
 
   /* ---- classes ---- */
   #classes{background:var(--ink-2)}
@@ -165,6 +188,11 @@
   footer{padding:34px 0;text-align:center;border-top:1px solid var(--line);background:var(--ink)}
   footer p{font-size:12px;color:#6f7d5c;letter-spacing:.08em}
   footer .brand{font-size:15px;letter-spacing:.2em;margin-bottom:8px;display:inline-block}
+
+  /* ---- scroll reveal ---- */
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1!important;transform:none!important;transition:none}}
 </style>
 </head>
 <body>
@@ -219,6 +247,7 @@
     </div>
     <div class="acts-grid">
       <div class="act">
+        <img class="faction-icon" src="assets/faction-goblin.webp" alt="" loading="lazy" decoding="async" />
         <div class="num">ACT I</div>
         <h3>The Goblin Warrens</h3>
         <span class="faction">Goblins</span>
@@ -226,6 +255,7 @@
         <div class="boss"><span>Lord</span><b>Goresnout, the Goblin Warlord</b></div>
       </div>
       <div class="act">
+        <img class="faction-icon" src="assets/faction-undead.webp" alt="" loading="lazy" decoding="async" />
         <div class="num">ACT II</div>
         <h3>The Drowned Catacombs</h3>
         <span class="faction">Undead</span>
@@ -233,6 +263,7 @@
         <div class="boss"><span>Lord</span><b>Mordrath, the Grave Tyrant</b></div>
       </div>
       <div class="act">
+        <img class="faction-icon" src="assets/faction-beast.webp" alt="" loading="lazy" decoding="async" />
         <div class="num">ACT III</div>
         <h3>The Feral Thornwood</h3>
         <span class="faction">Corrupted Beasts</span>
@@ -240,6 +271,7 @@
         <div class="boss"><span>Lord</span><b>Vurok, the Dire Alpha</b></div>
       </div>
       <div class="act">
+        <img class="faction-icon" src="assets/faction-demon.webp" alt="" loading="lazy" decoding="async" />
         <div class="num">ACT IV</div>
         <h3>The Obsidian Spire</h3>
         <span class="faction">Demons</span>
@@ -326,6 +358,18 @@
     <p>© 2026 Sylva's Blessing. A roguelike deckbuilder. All art and lore property of their creator.</p>
   </div>
 </footer>
+
+<script>
+(function(){
+  if(!('IntersectionObserver' in window) || matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+  var els = document.querySelectorAll('.section-head, .scroll-panel, .act, .vessel, .card, .novel, #join h2, #join .tagline');
+  els.forEach(function(el){ el.classList.add('reveal'); });
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, {threshold:0.12, rootMargin:'0px 0px -8% 0px'});
+  els.forEach(function(el){ io.observe(el); });
+})();
+</script>
 
 </body>
 </html>
