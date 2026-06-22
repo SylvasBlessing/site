@@ -1,0 +1,80 @@
+name: Deploy site + multiplayer
+
+# Publishes the static marketing site at the domain root and builds the
+# (private) multiplayer client into /multiplayer, as one GitHub Pages deploy.
+# Requires repo secret MP_REPO_TOKEN: a fine-grained PAT with Contents:read
+# on Blovely133/TestingMultiplayer. Requires Pages "Source" = GitHub Actions.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout site
+        uses: actions/checkout@v4
+        with:
+          path: site
+
+      - name: Checkout multiplayer (private)
+        uses: actions/checkout@v4
+        with:
+          repository: Blovely133/TestingMultiplayer
+          ref: main
+          token: ${{ secrets.MP_REPO_TOKEN }}
+          path: mp
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: mp/package-lock.json
+
+      - name: Build multiplayer (base /multiplayer/)
+        working-directory: mp
+        run: |
+          npm ci
+          npm run build -- --base=/multiplayer/
+
+      - name: Assemble Pages output
+        run: |
+          rm -rf public
+          mkdir -p public
+          # static marketing site at the domain root (keeps CNAME -> sylvasblessing.com)
+          cp -a site/. public/
+          rm -rf public/.git public/.github
+          # built multiplayer client served at /multiplayer/
+          mkdir -p public/multiplayer
+          cp -a mp/dist/. public/multiplayer/
+          touch public/.nojekyll
+          echo "----- public/ -----"; ls -la public
+          echo "----- public/multiplayer/ -----"; ls -la public/multiplayer
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: public
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
