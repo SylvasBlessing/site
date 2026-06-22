@@ -1,9 +1,12 @@
 name: Deploy site + multiplayer
 
-# Publishes the static marketing site at the domain root and builds the
-# (private) multiplayer client into /multiplayer, as one GitHub Pages deploy.
-# Requires repo secret MP_REPO_TOKEN: a fine-grained PAT with Contents:read
-# on Blovely133/TestingMultiplayer. Requires Pages "Source" = GitHub Actions.
+# Publishes, as one GitHub Pages deploy:
+#   /            -> the static marketing site
+#   /multiplayer -> the (private) multiplayer client  (Blovely133/TestingMultiplayer)
+#   /play        -> the (private) single-player game  (Blovely133/SylvasBlessingGame, production)
+# Auth: secret MP_REPO_TOKEN (PAT, Contents:read on TestingMultiplayer) for /multiplayer;
+#       secret SBG_DEPLOY_KEY (read-only deploy key on SylvasBlessingGame) for /play.
+# Requires Pages "Source" = GitHub Actions.
 
 on:
   push:
@@ -36,18 +39,34 @@ jobs:
           token: ${{ secrets.MP_REPO_TOKEN }}
           path: mp
 
+      - name: Checkout single-player game (private, production)
+        uses: actions/checkout@v4
+        with:
+          repository: Blovely133/SylvasBlessingGame
+          ref: main
+          ssh-key: ${{ secrets.SBG_DEPLOY_KEY }}
+          path: play
+
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: npm
-          cache-dependency-path: mp/package-lock.json
+          cache-dependency-path: |
+            mp/package-lock.json
+            play/package-lock.json
 
       - name: Build multiplayer (base /multiplayer/)
         working-directory: mp
         run: |
           npm ci
           npm run build -- --base=/multiplayer/
+
+      - name: Build single-player game (base /play/)
+        working-directory: play
+        run: |
+          npm ci
+          npm run build -- --base=/play/
 
       - name: Assemble Pages output
         run: |
@@ -59,9 +78,13 @@ jobs:
           # built multiplayer client served at /multiplayer/
           mkdir -p public/multiplayer
           cp -a mp/dist/. public/multiplayer/
+          # built single-player game served at /play/
+          mkdir -p public/play
+          cp -a play/dist/. public/play/
           touch public/.nojekyll
           echo "----- public/ -----"; ls -la public
           echo "----- public/multiplayer/ -----"; ls -la public/multiplayer
+          echo "----- public/play/ -----"; ls -la public/play
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
