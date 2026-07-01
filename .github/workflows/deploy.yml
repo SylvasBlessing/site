@@ -3,9 +3,12 @@ name: Deploy site + multiplayer
 # Publishes, as one GitHub Pages deploy:
 #   /            -> the static marketing site
 #   /multiplayer -> the (private) multiplayer client  (Blovely133/TestingMultiplayer)
-#   /play        -> the (private) single-player game  (Blovely133/SylvasBlessingGame, production)
+#   /play        -> the (private) single-player game  (Blovely133/desktop-tutorial, production)
 # Auth: secret MP_REPO_TOKEN (PAT, Contents:read on TestingMultiplayer) for /multiplayer;
-#       secret SBG_DEPLOY_KEY (read-only deploy key on SylvasBlessingGame) for /play.
+#       secret DT_DEPLOY_KEY (read-only deploy key on desktop-tutorial) for /play.
+# /play builds from desktop-tutorial since 2026-07: the SylvasBlessingGame fork was
+# retired to end code drift between the two deployments (one source of truth; the
+# platform-specific code is gated at build time by --base=/play/).
 # Requires Pages "Source" = GitHub Actions.
 
 on:
@@ -42,9 +45,9 @@ jobs:
       - name: Checkout single-player game (private, production)
         uses: actions/checkout@v4
         with:
-          repository: Blovely133/SylvasBlessingGame
+          repository: Blovely133/desktop-tutorial
           ref: main
-          ssh-key: ${{ secrets.SBG_DEPLOY_KEY }}
+          ssh-key: ${{ secrets.DT_DEPLOY_KEY }}
           path: play
 
       - name: Setup Node
