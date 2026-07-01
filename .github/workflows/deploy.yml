@@ -50,6 +50,19 @@ jobs:
           ssh-key: ${{ secrets.DT_DEPLOY_KEY }}
           path: play
 
+      # Card-set data branches (Sylva's Gauntlet). Published at /sets/<set>/ so both
+      # game clients load sets by URL at runtime (cards.json + faces/ + art/). These
+      # used to be fetched from raw.githubusercontent, which broke when the source
+      # repo went private — GitHub Pages (here) is public and sends
+      # Access-Control-Allow-Origin: *, so the github.io mirrors can fetch them too.
+      - name: Checkout Sylva's Gauntlet set data (draftformat branch)
+        uses: actions/checkout@v4
+        with:
+          repository: Blovely133/desktop-tutorial
+          ref: draftformat
+          ssh-key: ${{ secrets.DT_DEPLOY_KEY }}
+          path: gauntlet-data
+
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
@@ -84,6 +97,9 @@ jobs:
           # built single-player game served at /play/
           mkdir -p public/play
           cp -a play/dist/. public/play/
+          # card sets served at /sets/<set>/ (cards.json + faces/ + art/)
+          mkdir -p public/sets/gauntlet
+          cp -a gauntlet-data/dist/. public/sets/gauntlet/
           touch public/.nojekyll
           echo "----- public/ -----"; ls -la public
           echo "----- public/multiplayer/ -----"; ls -la public/multiplayer
