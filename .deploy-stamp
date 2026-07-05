@@ -1,1 +1,1 @@
-Deploy stamp: 2026-07-05. Pages dedupes deployments by pages_build_version (= site repo SHA); bump this file to force a fresh publish when only game/mp content changed.
+deploy 2026-07-05T06:04:46Z card-number fixes dt#522+#523
