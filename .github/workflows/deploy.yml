@@ -97,6 +97,15 @@ jobs:
           # built single-player game served at /play/
           mkdir -p public/play
           cp -a play/dist/. public/play/
+          # First-gesture audio unlock shim (see the file header for why):
+          # Chrome keeps the game's AudioContext suspended until resume() runs
+          # inside a user gesture, which left music silent until the volume
+          # slider was dragged. Classic script in <head> runs before the
+          # game's deferred module bundle. Remove once fixed upstream in
+          # desktop-tutorial.
+          cp site/.github/deploy/play-audio-unlock.js public/play/audio-unlock.js
+          sed -i 's#<head>#<head><script src="/play/audio-unlock.js"></script>#' public/play/index.html
+          grep -q '/play/audio-unlock.js' public/play/index.html
           # card sets served at /sets/<set>/ (cards.json + faces/ + art/)
           mkdir -p public/sets/gauntlet
           cp -a gauntlet-data/dist/. public/sets/gauntlet/
