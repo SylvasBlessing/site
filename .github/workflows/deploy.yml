@@ -1,9 +1,12 @@
 name: Deploy site + multiplayer
 
 # Publishes, as one GitHub Pages deploy:
-#   /            -> the static marketing site
-#   /multiplayer -> the (private) multiplayer client  (Blovely133/TestingMultiplayer)
-#   /play        -> the (private) single-player game  (Blovely133/desktop-tutorial, production)
+#   /                -> the static marketing site
+#   /multiplayer     -> the (private) multiplayer client  (Blovely133/TestingMultiplayer)
+#   /multiplayer-app -> the SAME client, iOS-app flavor (VITE_PLATFORM=ios): store
+#                       stripped (Apple 3.1.1), shell-aware back-link, guest deletion.
+#                       Loaded inside the Sylva's Blessing iOS app (Capacitor shell).
+#   /play            -> the (private) single-player game  (Blovely133/desktop-tutorial, production)
 # Auth: secret MP_REPO_TOKEN (PAT, Contents:read on TestingMultiplayer) for /multiplayer;
 #       secret DT_DEPLOY_KEY (read-only deploy key on desktop-tutorial) for /play.
 # /play builds from desktop-tutorial since 2026-07: the SylvasBlessingGame fork was
@@ -78,6 +81,16 @@ jobs:
           npm ci
           npm run build -- --base=/multiplayer/
 
+      # Same checkout, second flavor: the surface the iOS app embeds. Separate
+      # outDir so the web build above survives. VITE_CLIENT_VERSION feeds the
+      # /session version handshake — bump it alongside MIN_CLIENT_VERSION.
+      - name: Build multiplayer iOS-app surface (base /multiplayer-app/)
+        working-directory: mp
+        env:
+          VITE_PLATFORM: ios
+          VITE_CLIENT_VERSION: "1.1.0"
+        run: npm run build -- --base=/multiplayer-app/ --outDir dist-ios
+
       - name: Build single-player game (base /play/)
         working-directory: play
         run: |
@@ -94,6 +107,9 @@ jobs:
           # built multiplayer client served at /multiplayer/
           mkdir -p public/multiplayer
           cp -a mp/dist/. public/multiplayer/
+          # iOS-app flavor of the same client served at /multiplayer-app/
+          mkdir -p public/multiplayer-app
+          cp -a mp/dist-ios/. public/multiplayer-app/
           # built single-player game served at /play/
           mkdir -p public/play
           cp -a play/dist/. public/play/
