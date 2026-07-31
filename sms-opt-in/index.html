@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SMS Opt-In — Sylva's Blessing Daily Post Reminders</title>
+<meta name="robots" content="index" />
+<meta name="description" content="Sign up for Sylva's Blessing Daily Post Reminders. About 1 text message per day. Reply STOP to opt out. Message and data rates may apply." />
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
+<link rel="icon" href="/assets/favicon-32.png" sizes="32x32" type="image/png" />
+<style>
+  :root{--gold:#c79a36;--gold-bright:#ffd54f;--parchment:#e9e2c8;--leaf:#bff06a;--leaf-soft:#9bbf78;--ink:#0a1206}
+  *{box-sizing:border-box}
+  body{background:var(--ink);color:var(--parchment);margin:0;line-height:1.6;
+    font-family:'EB Garamond',Georgia,serif;font-size:17px;-webkit-text-size-adjust:100%}
+  .wrap{max-width:640px;margin:0 auto;padding:26px 20px 80px}
+  a{color:var(--leaf)}
+  .back{display:inline-block;margin-bottom:16px;color:var(--gold);text-decoration:none;
+    font-family:'Cinzel',Georgia,serif;letter-spacing:.16em;text-transform:uppercase;font-size:11px}
+  .back:hover{color:var(--gold-bright)}
+  h1{font-family:'Cinzel',Georgia,serif;color:var(--gold-bright);font-size:clamp(21px,4.6vw,28px);
+    letter-spacing:.02em;margin:0 0 4px;line-height:1.25}
+  .prog{font-family:'Cinzel',Georgia,serif;color:var(--gold);letter-spacing:.1em;
+    text-transform:uppercase;font-size:12px;margin:0 0 14px}
+  h2{font-family:'Cinzel',Georgia,serif;color:var(--gold);font-size:15px;letter-spacing:.08em;
+    text-transform:uppercase;margin:26px 0 8px}
+  p{margin:0 0 10px}
+  .lede{font-size:16px;margin:0 0 14px;color:var(--parchment)}
+  .card{border:1px solid rgba(199,154,54,.34);border-radius:8px;padding:14px 16px;
+    background:rgba(199,154,54,.05);margin:0 0 16px}
+  .disc{list-style:none;margin:0;padding:0;font-size:15.5px}
+  .disc li{margin:0 0 7px;padding-left:14px;position:relative;line-height:1.5}
+  .disc li:last-child{margin-bottom:0}
+  .disc li::before{content:"·";position:absolute;left:2px;color:var(--gold);font-weight:700}
+  .disc strong{color:var(--gold-bright);font-weight:600}
+  form{border:1px solid rgba(191,240,106,.34);border-radius:8px;padding:16px;
+    background:rgba(191,240,106,.04)}
+  .consent{display:flex;gap:11px;align-items:flex-start;margin:0 0 14px}
+  .consent input[type=checkbox]{width:22px;height:22px;min-width:22px;margin:2px 0 0;
+    accent-color:#7aa64f;cursor:pointer}
+  .consent label{font-size:15.5px;line-height:1.45;cursor:pointer}
+  label.fld{display:block;font-size:13px;letter-spacing:.06em;text-transform:uppercase;
+    font-family:'Cinzel',Georgia,serif;color:var(--gold);margin:0 0 5px}
+  input[type=tel]{width:100%;padding:11px 12px;font-size:17px;border-radius:6px;
+    border:1px solid rgba(233,226,200,.34);background:#060d04;color:var(--parchment);
+    font-family:inherit}
+  input[type=tel]:focus{outline:2px solid var(--leaf-soft);outline-offset:1px}
+  button{margin-top:14px;width:100%;padding:13px 16px;font-size:15px;border-radius:6px;
+    border:1px solid var(--gold);background:var(--gold);color:#120c00;cursor:pointer;
+    font-family:'Cinzel',Georgia,serif;letter-spacing:.1em;text-transform:uppercase;font-weight:600}
+  button:hover{background:var(--gold-bright);border-color:var(--gold-bright)}
+  .note{font-size:13.5px;color:var(--leaf-soft);margin:12px 0 0;line-height:1.5}
+  .err{color:#ff9c7a;font-size:14.5px;margin:10px 0 0;display:none}
+  #done{display:none;border:1px solid rgba(191,240,106,.5);border-radius:8px;padding:16px;
+    background:rgba(191,240,106,.07);margin:0 0 16px}
+  #done h2{margin-top:0}
+  .rec{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13.5px;
+    color:var(--parchment);background:#060d04;border:1px solid rgba(233,226,200,.2);
+    border-radius:6px;padding:10px 12px;margin:10px 0;word-break:break-word;line-height:1.6}
+  hr{border:none;border-top:1px solid rgba(199,154,54,.28);margin:28px 0 16px}
+  .muted{color:var(--leaf-soft);font-size:13px;line-height:1.6}
+  @media (max-width:400px){ .wrap{padding:20px 15px 70px} body{font-size:16px} }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <a class="back" href="/">‹ Back to Sylva's Blessing</a>
+
+    <h1>Sylva's Blessing — Daily Post Reminders</h1>
+    <p class="prog">SMS program sign-up</p>
+
+    <p class="lede">A once-a-day text reminder to post the day's scheduled video. Optional, and you
+      can stop at any time.</p>
+
+    <div class="card">
+      <ul class="disc">
+        <li><strong>Program:</strong> Sylva's Blessing — Daily Post Reminders, operated by Sylva's Blessing (sylvasblessing.com).</li>
+        <li><strong>Message frequency:</strong> about 1 message per day — roughly 30 messages per month. Frequency may vary.</li>
+        <li><strong>Message and data rates may apply.</strong></li>
+        <li><strong>To opt out:</strong> reply <strong>STOP</strong> to any message. For help, reply <strong>HELP</strong>.</li>
+        <li><strong>Customer care:</strong> <a href="mailto:blakelovelymd@gmail.com">blakelovelymd@gmail.com</a></li>
+        <li><strong>Terms &amp; Conditions:</strong> <a href="/terms/#sms">sylvasblessing.com/terms</a></li>
+        <li><strong>Privacy Policy:</strong> <a href="/privacy/#sms">sylvasblessing.com/privacy</a></li>
+      </ul>
+    </div>
+
+    <div id="done" role="status" aria-live="polite">
+      <h2>Request recorded</h2>
+      <p>Your consent was recorded in this browser. Nothing has been sent to your phone yet — see the
+        note below for what happens next.</p>
+      <div class="rec" id="rec"></div>
+      <p style="margin-bottom:0"><a id="mailto" href="#">Email this consent record to blakelovelymd@gmail.com</a>
+        to complete enrolment.</p>
+    </div>
+
+    <form id="f" novalidate>
+      <div class="consent">
+        <input type="checkbox" id="consent" name="consent" />
+        <label for="consent">I agree to receive daily post-reminder text messages from Sylva's Blessing
+          at the number I provide. Consent is not a condition of any purchase. About 1 msg/day.
+          Message and data rates may apply. Reply STOP to opt out.</label>
+      </div>
+
+      <label class="fld" for="phone">Mobile number</label>
+      <input type="tel" id="phone" name="phone" inputmode="tel" autocomplete="tel"
+             placeholder="+1 205 555 0123" />
+
+      <button type="submit">Sign up for reminders</button>
+      <p class="err" id="err"></p>
+
+      <p class="note"><strong>How this form works:</strong> it does not yet connect automatically to a
+        messaging system. Submitting records your consent — the number, the date and time, and the
+        wording you agreed to — in this browser and gives you a pre-filled email to send it to us. We
+        add the number by hand, and no message is sent to you before that. We will not use this form
+        to enrol a number that did not submit it.</p>
+    </form>
+
+    <h2>What we send</h2>
+    <p>One message each morning, at about 9:00 a.m. US Central time, reminding you to post the day's
+      scheduled video and linking to that day's posting queue. We do not send marketing,
+      advertising, or third-party offers on this program.</p>
+
+    <h2>How to stop</h2>
+    <p>Reply <strong>STOP</strong> to any message and we will stop texting that number. You can also
+      email <a href="mailto:blakelovelymd@gmail.com">blakelovelymd@gmail.com</a> at any time to be
+      removed and to have your number deleted.</p>
+
+    <hr />
+    <p class="muted">
+      Sylva's Blessing · <a href="https://sylvasblessing.com">sylvasblessing.com</a> ·
+      <a href="/terms/#sms">Terms &amp; Conditions</a> ·
+      <a href="/privacy/#sms">Privacy Policy</a> ·
+      <a href="mailto:blakelovelymd@gmail.com">blakelovelymd@gmail.com</a><br />
+      Carriers are not liable for delayed or undelivered messages.
+    </p>
+  </div>
+
+<script>
+(function(){
+  var f=document.getElementById('f'), err=document.getElementById('err'),
+      done=document.getElementById('done'), rec=document.getElementById('rec'),
+      cb=document.getElementById('consent'), ph=document.getElementById('phone'),
+      ml=document.getElementById('mailto');
+  var WORDING="I agree to receive daily post-reminder text messages from Sylva's Blessing at the "
+    +"number I provide. Consent is not a condition of any purchase. About 1 msg/day. Message and "
+    +"data rates may apply. Reply STOP to opt out.";
+  function fail(m){ err.textContent=m; err.style.display='block'; }
+  f.addEventListener('submit', function(e){
+    e.preventDefault();
+    err.style.display='none';
+    if(!cb.checked){ fail('Please tick the consent box before submitting.'); cb.focus(); return; }
+    var raw=(ph.value||'').trim();
+    if(raw.replace(/\D/g,'').length < 10){ fail('Please enter a valid mobile number including area code.'); ph.focus(); return; }
+    var when=new Date();
+    var payload=
+      'Program: Sylva\'s Blessing — Daily Post Reminders\n'+
+      'Number: '+raw+'\n'+
+      'Consent given: '+when.toISOString()+' (local: '+when.toString()+')\n'+
+      'Opt-in page: '+location.origin+location.pathname+'\n'+
+      'Wording agreed to: '+WORDING;
+    rec.textContent=payload;
+    try{ localStorage.setItem('sb_sms_consent', JSON.stringify(
+      {number:raw, at:when.toISOString(), page:location.origin+location.pathname, wording:WORDING}
+    )); }catch(_){}
+    ml.href='mailto:blakelovelymd@gmail.com'
+      +'?subject='+encodeURIComponent('SMS opt-in — Daily Post Reminders')
+      +'&body='+encodeURIComponent(payload);
+    f.style.display='none';
+    done.style.display='block';
+    done.scrollIntoView({block:'start'});
+  });
+})();
+</script>
+</body>
+</html>
