@@ -42,7 +42,7 @@ jobs:
         with:
           repository: Blovely133/TestingMultiplayer
           ref: main
-          token: ${{ secrets.MP_REPO_TOKEN }}
+          ssh-key: ${{ secrets.MP_DEPLOY_KEY }}
           path: mp
 
       - name: Checkout single-player game (private, production)
