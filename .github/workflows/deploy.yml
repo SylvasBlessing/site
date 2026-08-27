@@ -7,6 +7,7 @@ name: Deploy site + multiplayer
 #                       stripped (Apple 3.1.1), shell-aware back-link, guest deletion.
 #                       Loaded inside the Sylva's Blessing iOS app (Capacitor shell).
 #   /play            -> the (private) single-player game  (Blovely133/desktop-tutorial, production)
+#   /updates         -> signed Blake's Family Network artifacts from the public release repo
 # Auth: secret MP_REPO_TOKEN (PAT, Contents:read on TestingMultiplayer) for /multiplayer;
 #       secret DT_DEPLOY_KEY (read-only deploy key on desktop-tutorial) for /play.
 # /play builds from desktop-tutorial since 2026-07: the SylvasBlessingGame fork was
@@ -36,6 +37,16 @@ jobs:
         uses: actions/checkout@v4
         with:
           path: site
+
+      # Public, signed, download-only Blake's Family Network artifacts. Keeping
+      # these in their own repo avoids coupling release history to the game site;
+      # this deploy mirrors them at the already-HTTPS-enforced apex domain.
+      - name: Checkout Blake's Family Network updates
+        uses: actions/checkout@v4
+        with:
+          repository: SylvasBlessing/blakes-family-network-updates
+          ref: main
+          path: bfn-updates
 
       - name: Checkout multiplayer (private)
         uses: actions/checkout@v4
@@ -104,6 +115,9 @@ jobs:
           # static marketing site at the domain root (keeps CNAME -> sylvasblessing.com)
           cp -a site/. public/
           rm -rf public/.git public/.github
+          # signed Windows update channel served at the existing HTTPS domain
+          mkdir -p public/updates
+          cp -a bfn-updates/blakes-family-network public/updates/
           # built multiplayer client served at /multiplayer/
           mkdir -p public/multiplayer
           cp -a mp/dist/. public/multiplayer/
